@@ -1,7 +1,7 @@
 .globl _start
 
 _start:
-  li a0, 230977  #<<<=== Registro do Aluno (RA)
+  li a0, 230554  #<<<=== Registro do Aluno (RA)
   li a1, 0
   li a2, 0
   li a3, -1

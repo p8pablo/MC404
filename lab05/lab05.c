@@ -43,18 +43,35 @@ void _start()
   int ret_code = main();
   exit(ret_code);
 }
-
-void print(){
+int abs(int num){
+  if(num >= 0){
+    return num;
+  }
+  else
+  {
+    return 0 - num;
+  }
   
+}
+void print(int x)
+{
+  char s[33];
+  s[32] = '\n';
+  for (int i = 31; i >= 0; i--)
+  {
+    s[i] = abs(x % 2) + '0';
+    x = x / 2;
+  }
+  write(1, s, 33);
 }
 
 void intToHex(int soma, char *saida)
 {
   int comparador_4bit = 4026531840;
   int valor = 0;
-  int i = 0;
+  int i = 2;
   int shift = 28;
-  while (comparador_4bit)
+  while (i < 10)
   {
     valor = (soma & comparador_4bit) >> shift;
     if (valor % 16 > 9)
@@ -94,11 +111,11 @@ int main()
       else
       {
         val1 = (val1 * 10) + (entrada[i] - '0');
-        if (signal == '-')
-        {
-          val1 = 0 - val1;
-        }
       }
+    }
+    if (signal == '-' && i == 5)
+    {
+      val1 = 0 - val1;
     }
     else if (i > 5 && i < 11)
     {
@@ -109,11 +126,11 @@ int main()
       else
       {
         val2 = (val2 * 10) + (entrada[i] - '0');
-        if (signal == '-')
-        {
-          val2 = 0 - val2;
-        }
       }
+    }
+    if (signal == '-' && i == 11)
+    {
+      val2 = 0 - val2;
     }
     else if (i > 11 && i < 17)
     {
@@ -124,11 +141,11 @@ int main()
       else
       {
         val3 = (val3 * 10) + (entrada[i] - '0');
-        if (signal == '-')
-        {
-          val3 = 0 - val3;
-        }
       }
+    }
+    if (signal == '-' && i == 17)
+    {
+      val3 = 0 - val3;
     }
     else if (i > 17 && i < 23)
     {
@@ -139,11 +156,12 @@ int main()
       else
       {
         val4 = (val4 * 10) + (entrada[i] - '0');
-        if (signal == '-')
-        {
-          val4 = 0 - val4;
-        }
+       
       }
+    }
+    if (signal == '-' && i == 23)
+    {
+      val4 = 0 - val4;
     }
     else if (i > 23)
     {
@@ -154,13 +172,15 @@ int main()
       else
       {
         val5 = (val5 * 10) + (entrada[i] - '0');
-        if (signal == '-')
-        {
-          val5 = 0 - val5;
-        }
       }
     }
+    if (signal == '-' && i == 29)
+    {
+      val5 = 0 - val5;
+    }
   }
+
+
   soma += val1 & 31;
   shift += 5;
 
@@ -168,6 +188,7 @@ int main()
   soma += val2 & 4095;
   shift += 7;
 
+  print(soma);
   val3 = val3 << shift;
   soma += val3 & 2097152;
   shift += 9;
@@ -180,4 +201,5 @@ int main()
   soma += val5 & 4294967295;
 
   intToHex(soma, saida);
+  write(1, saida, 11);
 }

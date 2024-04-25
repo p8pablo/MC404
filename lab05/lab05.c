@@ -55,25 +55,25 @@ int abs(int num){
 }
 void print(int x)
 {
+
   char s[33];
   s[32] = '\n';
   for (int i = 31; i >= 0; i--)
   {
-    s[i] = abs(x % 2) + '0';
-    x = x / 2;
+    s[i] = (x&1) +'0';
+    x = x>>1;
   }
   write(1, s, 33);
 }
 
 void intToHex(int soma, char *saida)
 {
-  int comparador_4bit = 4026531840;
+  int comparador_4bit = 15;
   int valor = 0;
-  int i = 2;
-  int shift = 28;
-  while (i < 10)
+  int i = 9;
+  while (i > 1)
   {
-    valor = (soma & comparador_4bit) >> shift;
+    valor = soma&comparador_4bit;
     if (valor % 16 > 9)
     {
       saida[i] = (valor % 16) + 'A' - 10;
@@ -82,9 +82,8 @@ void intToHex(int soma, char *saida)
     {
       saida[i] = (valor % 16) + '0';
     }
-    i++;
-    shift -= 4;
-    comparador_4bit >> 4;
+    i--;
+    soma = soma >> 4;
   }
 }
 
@@ -117,7 +116,7 @@ int main()
     {
       val1 = 0 - val1;
     }
-    else if (i > 5 && i < 11)
+    if (i > 5 && i < 11)
     {
       if (i == 6)
       {
@@ -132,7 +131,7 @@ int main()
     {
       val2 = 0 - val2;
     }
-    else if (i > 11 && i < 17)
+    if (i > 11 && i < 17)
     {
       if (i == 12)
       {
@@ -147,7 +146,7 @@ int main()
     {
       val3 = 0 - val3;
     }
-    else if (i > 17 && i < 23)
+    if (i > 17 && i < 23)
     {
       if (i == 18)
       {
@@ -163,7 +162,7 @@ int main()
     {
       val4 = 0 - val4;
     }
-    else if (i > 23)
+    if (i > 23 && i < 29)
     {
       if (i == 24)
       {
@@ -180,25 +179,32 @@ int main()
     }
   }
 
-
   soma += val1 & 31;
   shift += 5;
 
+  
+  val2 = val2 & 127;
   val2 = val2 << shift;
-  soma += val2 & 4095;
+  soma += val2;
   shift += 7;
+  
 
-  print(soma);
+  val3 = val3 & 511;
   val3 = val3 << shift;
-  soma += val3 & 2097152;
+  soma += val3;
   shift += 9;
+  
 
+  val4 = val4 & 15;
   val4 = val4 << shift;
-  soma += val4 & 33554432;
-  shift += 4;
+  soma += val4;
+  shift += 4; 
+  
 
+  val5 = val5 & 127;
   val5 = val5 << shift;
-  soma += val5 & 4294967295;
+  soma += val5;
+  
 
   intToHex(soma, saida);
   write(1, saida, 11);
